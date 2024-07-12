@@ -37,7 +37,7 @@ export const Navbar = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
-        setUserEmail(user.email);
+        setUserEmail(user.email.toString());
       } else {
         setIsLoggedIn(false);
         setUserEmail('');
