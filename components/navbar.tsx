@@ -25,6 +25,7 @@ import { NavItem } from '@/config/types';
 
 // Import admins.json (replace with actual path)
 import admins from '../public/admins.json';
+import { user } from '@nextui-org/react';
 
 // Define the Navbar component
 export const Navbar = () => {
@@ -77,8 +78,8 @@ export const Navbar = () => {
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item: NavItem) => (
             <NavbarItem key={item.href}>
-              {isLoggedIn ? (
-                isAdmin() || item.label === "Class-Recordings" || item.label === "Quiz"  || item.label === "Score Board"  || item.label === "Quiz" || item.label === "Notes" ? (
+              {isLoggedIn  ? (
+                isAdmin() || item.label === "Class-Recordings" ||  item.label === "Score Board"  || item.label === "Quiz" || item.label === "Notes" ? (
                   <NextLink
                     className={clsx(
                       linkStyles({ color: "foreground" }),

@@ -5,6 +5,8 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { v4 as uuidv4 } from 'uuid';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { app } from '../../firebaseConfig'; // Make sure you have initialized Firebase
+import withAuthAdmin from '@/components/withAuthAdmin';
+
 
 const UploadPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -89,6 +91,6 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default withAuthAdmin(UploadPage);
 
 

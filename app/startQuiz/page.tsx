@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input, Button } from '@nextui-org/react';
-import withAuth from '@/components/withAuth';
+import withAuthAdmin from '@/components/withAuthAdmin';
 import { database } from '@/firebaseConfig';
 import { ref, get, set } from 'firebase/database';
 
@@ -203,4 +203,4 @@ const AdminPage = () => {
   );
 };
 
-export default withAuth(AdminPage);
+export default withAuthAdmin(AdminPage);

@@ -62,12 +62,7 @@ const Login = () => {
             CIIE Omnidev
           </div>
         </div>
-        <div className="font-bold text-3xl mt-5">
-          Sign In and Get Started
-        </div>
-        <div>
-          Explore videos and quizzes all together 😁
-        </div>
+       
         <div className="ml-10 mt-20">
           {isLoggedIn ? (
             <div className="bg-blue-400 p-4 rounded shadow">
@@ -82,6 +77,12 @@ const Login = () => {
             </div>
           ) : (
             <>
+             <div className="font-bold text-3xl mt-5">
+          Sign In and Get Started
+        </div>
+        <div>
+          Explore videos and quizzes all together 😁
+        </div>
               <form onSubmit={handleLogin} className="space-y-4">
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className="font-bold text-xl mt-10">

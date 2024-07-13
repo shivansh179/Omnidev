@@ -47,6 +47,10 @@ export const siteConfig = {
       label: " ",
       href: "/login"
     },
+    {
+      label: " ",
+      href: "/restricted"
+    },
   ],
   navMenuItems: [
     
