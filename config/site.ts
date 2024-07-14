@@ -15,10 +15,7 @@ export const siteConfig = {
       label: "Add-Video",
       href: "/addvideos"
     },
-    {
-      label: "Quiz",
-      href: "/dsaQuiz"
-    },
+   
     {
       label: "StartQuiz",
       href: "/startQuiz"
@@ -65,10 +62,7 @@ export const siteConfig = {
       label: "Add-Video",
       href: "/addvideos"
     },
-    {
-      label: "Quiz",
-      href: "/dsaQuiz"
-    },
+  
     {
       label: "StartQuiz",
       href: "/startQuiz"
