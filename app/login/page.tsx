@@ -49,8 +49,8 @@ const Login = () => {
       toast.success("Logged in successfully");
       router.push('/');
     } catch (err) {
-      toast.error(err.message || 'An error occurred during login');
-      setError(err.message || 'An error occurred during login');
+      toast.error(error || 'An error occurred during login');
+      setError(error);
     }
   };
 
