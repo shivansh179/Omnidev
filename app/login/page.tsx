@@ -38,7 +38,7 @@ const Login = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
