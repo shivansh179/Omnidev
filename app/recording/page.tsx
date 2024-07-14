@@ -1,51 +1,43 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react";
 import withAuth from "@/components/withAuth";
-
-
-type Video = {
-  url: string;
-  title: string;
-  date: string;
-};
 
 const handleNavigation = (page: string) => {
   window.location.href = `/${page}`;
 };
 
 const Page = () => {
-  
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Class Recording</h1>
-      <div className="flex justify-center space-x-4">
-        <button
-          onClick={() => handleNavigation("dsavideo")}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Class Recording for DSA
-        </button>
-        <button
-          onClick={() => handleNavigation("cloudvideo")}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-        >
-          Class Recording for Cloud
-        </button>
-        <button
-          onClick={() => handleNavigation("appvideo")}
-          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded"
-        >
-          Class Recording for App
-        </button>
-        <button
-          onClick={() => handleNavigation("webvideo")}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-        >
-          Class Recording for Web
-        </button>
+    <div className="min-h-screen bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center p-4">
+      <div className="bg-white bg-opacity-90 p-10 rounded-lg shadow-lg text-center">
+        <h1 className="text-4xl font-extrabold mb-8 text-gray-800">Class Recordings</h1>
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <button
+            onClick={() => handleNavigation("dsavideo")}
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded shadow-lg transition-transform transform hover:scale-105"
+          >
+            DSA
+          </button>
+          <button
+            onClick={() => handleNavigation("cloudvideo")}
+            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded shadow-lg transition-transform transform hover:scale-105"
+          >
+            Cloud
+          </button>
+          <button
+            onClick={() => handleNavigation("appvideo")}
+            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-2 rounded shadow-lg transition-transform transform hover:scale-105"
+          >
+            App
+          </button>
+          <button
+            onClick={() => handleNavigation("webvideo")}
+            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded shadow-lg transition-transform transform hover:scale-105"
+          >
+            Web
+          </button>
+        </div>
       </div>
-    
     </div>
   );
 };

@@ -1,18 +1,19 @@
-
-
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { app } from '@/firebaseConfig'; // Make sure you have initialized Firebase
-import withAuthAdmin from '@/components/withAuthAdmin' 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import withAuthAdmin from '@/components/withAuthAdmin';
 
 const UploadPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [course, setCourse] = useState('');
   const [topic, setTopic] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const storage = getStorage(app);
   const firestore = getFirestore(app);
@@ -28,7 +29,19 @@ const UploadPage = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
+      // Check if the file already exists
+      const q = query(collection(firestore, 'notes'), where('course', '==', course), where('topic', '==', topic));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        toast.error('A note with the same course and topic already exists.');
+        setLoading(false);
+        return;
+      }
+
       const fileId = uuidv4(); // Generate a unique ID for the file
       const storageRef = ref(storage, `notes/${course}/${topic}/${fileId}.pdf`);
 
@@ -40,7 +53,8 @@ const UploadPage = () => {
         () => {}, // Progress handler (can be used to show upload progress)
         (error) => {
           console.error('Error uploading file:', error);
-          alert('Failed to upload file. Please try again later.');
+          toast.error('Failed to upload file. Please try again later.');
+          setLoading(false);
         },
         async () => {
           // Get download URL after upload completes
@@ -55,15 +69,17 @@ const UploadPage = () => {
             createdAt: new Date(),
           });
 
-          alert('File uploaded successfully!');
+          toast.success('File uploaded successfully!');
           setFile(null);
           setCourse('');
           setTopic('');
+          setLoading(false);
         }
       );
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Failed to upload file. Please try again later.');
+      toast.error('Failed to upload file. Please try again later.');
+      setLoading(false);
     }
   };
 
@@ -89,9 +105,15 @@ const UploadPage = () => {
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
       />
-      <button onClick={handleUpload} className="bg-blue-500 text-white p-2 mt-4 rounded hover:bg-blue-600">
-        Upload File
+      <button
+        onClick={handleUpload}
+        className="bg-blue-500 text-white p-2 mt-4 rounded hover:bg-blue-600"
+        disabled={loading}
+      >
+        {loading ? 'Uploading...' : 'Upload File'}
       </button>
+
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };
