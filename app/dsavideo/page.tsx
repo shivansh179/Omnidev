@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import withAuth from "@/components/withAuthAdmin";
 
 type Video = {
   url: string;
@@ -89,4 +90,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);
