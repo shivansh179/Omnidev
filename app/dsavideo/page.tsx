@@ -37,8 +37,8 @@ const Page = () => {
         <div className="col-span-2">
           {isYouTubeVideo(currentVideo) ? (
             <iframe
-              width="100%"
-              height="400"
+              width="640"
+              height="480"
               src={currentVideo}
               title="YouTube video player"
               frameBorder="0"
