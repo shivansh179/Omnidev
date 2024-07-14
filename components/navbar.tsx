@@ -1,7 +1,7 @@
 "use client";
-// Import necessary modules
 import { useEffect, useState, useRef } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 import { auth } from '../firebaseConfig';
 import {
   Navbar as NextUINavbar,
@@ -22,26 +22,24 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { DiscordIcon } from './icons';
 import { NavItem } from '@/config/types';
-
-// Import admins.json (replace with actual path)
 import admins from '../public/admins.json';
-import { user } from '@nextui-org/react';
 
-// Define the Navbar component
 export const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+ 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
         setUserEmail(user.email!.toString());
+        setIsDropdownOpen(false);  // Close the dropdown on login
       } else {
         setIsLoggedIn(false);
         setUserEmail('');
+        setIsDropdownOpen(false);  // Close the dropdown on logout
       }
     });
 
@@ -53,18 +51,45 @@ export const Navbar = () => {
       await signOut(auth);
       setIsLoggedIn(false);
       setUserEmail('');
+      setIsDropdownOpen(false);  // Close the dropdown on logout
     } catch (error) {
       console.error("Error logging out: ", error);
     }
   };
 
-  // Function to check if user's email is in admins.json
   const isAdmin = () => {
     return admins.admins.includes(userEmail);
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleNavigation = (path: string) => {
+   window.location.href = path;
+  setIsDropdownOpen(false);   
+  };
+
+  const renderNavItem = (item: NavItem) => {
+    if (isLoggedIn) {
+      if (isAdmin() || ['Class-Recordings', 'Score Board', 'Quiz', 'Notes'].includes(item.label)) {
+        return (
+          <NavbarItem key={item.href}>
+            <NextLink
+              className={clsx(
+                linkStyles({ color: "foreground" }),
+                "data-[active=true]:text-primary data-[active=true]:font-medium"
+              )}
+              color="foreground"
+              href={item.href}
+            >
+              {item.label}
+            </NextLink>
+          </NavbarItem>
+        );
+      }
+    }
+    return null;
   };
 
   return (
@@ -76,31 +101,11 @@ export const Navbar = () => {
           </div>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item: NavItem) => (
-            <NavbarItem key={item.href}>
-              {isLoggedIn  ? (
-                isAdmin() || item.label === "Class-Recordings" ||  item.label === "Score Board"  || item.label === "Quiz" || item.label === "Notes" ? (
-                  <NextLink
-                    className={clsx(
-                      linkStyles({ color: "foreground" }),
-                      "data-[active=true]:text-primary data-[active=true]:font-medium"
-                    )}
-                    color="foreground"
-                    href={item.href}
-                  >
-                    {item.label}
-                  </NextLink>
-                ) : null
-              ) : null}
-            </NavbarItem>
-          ))}
+          {siteConfig.navItems.map(renderNavItem)}
         </ul>
       </NavbarContent>
 
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
+      <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
         <NavbarItem className="hidden sm:flex gap-2">
           <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
             <DiscordIcon className="text-default-500" />
@@ -120,34 +125,25 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarMenu>
-        {siteConfig.navMenuItems.map((item: NavItem, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <NextLink
-              className={clsx("w-full", linkStyles({ color: "foreground" }))}
-              href={item.href}
-            >
-              {item.label}
-            </NextLink>
-          </NavbarMenuItem>
-        ))}
+        {siteConfig.navMenuItems.map(renderNavItem)}
         {!isLoggedIn && (
           <NavbarMenuItem>
-            <NextLink
+            <button
               className={clsx("w-full", linkStyles({ color: "foreground" }))}
-              href="/login"
+              onClick={() => handleNavigation('/login')}
             >
               Login
-            </NextLink>
+            </button>
           </NavbarMenuItem>
         )}
         {!isLoggedIn && (
           <NavbarMenuItem>
-            <NextLink
+            <button
               className={clsx("w-full", linkStyles({ color: "foreground" }))}
-              href="/sign-up"
+              onClick={() => handleNavigation('/sign-up')}
             >
               Sign Up
-            </NextLink>
+            </button>
           </NavbarMenuItem>
         )}
       </NavbarMenu>
@@ -161,14 +157,8 @@ export const Navbar = () => {
             {userEmail.charAt(0).toUpperCase()}
           </button>
           {isDropdownOpen && (
-            <div
-              ref={dropdownRef}
-              className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg"
-            >
-              <button
-                onClick={handleLogout}
-                className="w-full px-4 py-2 text-left text-black hover:bg-gray-100"
-              >
+            <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+              <button onClick={handleLogout} className="w-full px-4 py-2 text-left text-black hover:bg-gray-100">
                 Logout
               </button>
             </div>

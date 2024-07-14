@@ -53,39 +53,38 @@ export const siteConfig = {
     },
   ],
   navMenuItems: [
-    
-    // {
-    //   label: "Profile",
-    //   href: "/profile",
-    // },
-    // {
-    //   label: "Dashboard",
-    //   href: "/dashboard",
-    // },
-    // {
-    //   label: "Projects",
-    //   href: "/projects",
-    // },
-    // {
-    //   label: "Team",
-    //   href: "/team",
-    // },
-    // {
-    //   label: "Calendar",
-    //   href: "/calendar",
-    // },
-    // {
-    //   label: "Settings",
-    //   href: "/settings",
-    // },
-    // {
-    //   label: "Help & Feedback",
-    //   href: "/help-feedback",
-    // },
-    // {
-    //   label: "Logout",
-    //   href: "/logout",
-    // },
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Class-Recordings",
+      href: "/recording"
+    },
+    {
+      label: "Add-Video",
+      href: "/addvideos"
+    },
+    {
+      label: "Quiz",
+      href: "/dsaQuiz"
+    },
+    {
+      label: "StartQuiz",
+      href: "/startQuiz"
+    },
+    {
+      label: "Score Board",
+      href: "/userScore"
+    },
+    {
+      label: "Notes",
+      href: "/notes"
+    },
+    {
+      label: "Add Notes",
+      href: "/addNotes"
+    },
   ],
   links: {
     discord: "https://discord.com/invite/NnvmTMkn",

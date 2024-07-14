@@ -13,7 +13,7 @@ import { EyeFilledIcon } from "@/public/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "@/public/EyeSlashFilledIcon";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -22,6 +22,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const router = useRouter();
 
@@ -37,7 +38,7 @@ const Login = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleLogin = async (e: { preventDefault: () => void; }) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -48,15 +49,16 @@ const Login = () => {
       toast.success("Logged in successfully");
       router.push('/');
     } catch (err) {
-      // const errorMessage = error || 'An error occurred during login';
-      toast.error(error);
-      setError(error);
+      toast.error(err.message || 'An error occurred during login');
+      setError(err.message || 'An error occurred during login');
     }
   };
 
+   
+
   return (
-    <div className="flex p-5 shadow-lg bg-gray-50 justify-center">
-      <div className="w-[450px] bg-gray-50 h-[600px]">
+    <div className={`flex p-5 shadow-lg justify-center ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-black'}`}>
+      <div className={`w-[450px] h-[600px] ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="font-bold text-green-500">
           <div className={Orbitronn.className}>
             CIIE Omnidev
@@ -77,12 +79,12 @@ const Login = () => {
             </div>
           ) : (
             <>
-             <div className="font-bold text-3xl mt-5">
-          Sign In and Get Started
-        </div>
-        <div>
-          Explore videos and quizzes all together 😁
-        </div>
+              <div className="font-bold text-3xl mt-5">
+                Sign In and Get Started
+              </div>
+              <div>
+                Explore videos and quizzes all together 😁
+              </div>
               <form onSubmit={handleLogin} className="space-y-4">
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className="font-bold text-xl mt-10">
@@ -90,7 +92,7 @@ const Login = () => {
                     type="email"
                     label="Email"
                     variant="underlined"
-                    className="w-[320px]"
+                    className={`w-[320px] ${isDarkMode ? 'text-white' : 'text-black'}`}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -113,7 +115,7 @@ const Login = () => {
                       </button>
                     }
                     type={isVisible ? "text" : "password"}
-                    className="max-w-xs w-[400px]"
+                    className={`max-w-xs w-[400px] ${isDarkMode ? 'text-white' : 'text-black'}`}
                     required
                   />
                 </div>
@@ -138,7 +140,7 @@ const Login = () => {
       <div className="w-[500px] border-2 bg-green-500 rounded-xl pl-10 pt-24">
         <Image src={Collab} alt="Collab" height={600} width={500} className="transition animate-appearance-in duration-300 delay-200" />
       </div>
-      <ToastContainer />
+       <ToastContainer />
     </div>
   );
 };

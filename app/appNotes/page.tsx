@@ -3,11 +3,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { getFirestore, collection, query, where, getDocs, DocumentData } from 'firebase/firestore';
-import { app } from '@/firebaseConfig'; // Ensure Firebase is initialized
+import { app } from '@/firebaseConfig';  
 import withAuth from '@/components/withAuth';
 
 const AppNotesPage = () => {
-  const [appNotes, setAppNotes] = useState<DocumentData[]>([]); // Initialize state with DocumentData[]
+  const [appNotes, setAppNotes] = useState<DocumentData[]>([]);  
 
   useEffect(() => {
     const fetchAPPNotes = async () => {
