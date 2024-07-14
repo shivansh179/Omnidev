@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import withAuth from "@/components/withAuthAdmin";
+import withAuth from "@/components/withAuth";
 
 type Video = {
   url: string;
